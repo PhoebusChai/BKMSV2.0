@@ -3,6 +3,7 @@ export interface Post {
   title: string
   date: string
   excerpt: string
+  cover?: string
   tags: string[]
   contentHtml: string
 }
@@ -13,6 +14,8 @@ export const posts: Post[] = [
     title: '极简写作：少即是多',
     date: '2026-03-18',
     excerpt: '在信息过载的时代，留白与克制反而让观点更清晰。',
+    cover:
+      'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1400&q=80',
     tags: ['写作', '思考'],
     contentHtml: `
       <p>极简不是偷懒，而是对读者的尊重。每一段只承担一个意思，每一屏只呈现一个焦点。</p>
@@ -30,6 +33,8 @@ export const posts: Post[] = [
     title: 'Vue 3 组合式 API 随手记',
     date: '2026-03-10',
     excerpt: '用更小的函数块组织逻辑，而不是按选项类型拆分文件。',
+    cover:
+      'https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=1400&q=80',
     tags: ['Vue', '前端'],
     contentHtml: `
       <p>当组件变大时，<code>setup</code> 里的逻辑可以按「功能」拆成 composable，而不是按 <code>data</code> / <code>methods</code> 机械分类。</p>

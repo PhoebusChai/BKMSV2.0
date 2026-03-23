@@ -10,42 +10,76 @@ defineProps<{
 
 <template>
   <article class="card">
-    <div class="card__meta">
-      <span class="card__date">
-        <Calendar :size="14" :stroke-width="1.75" aria-hidden="true" />
-        <time :datetime="post.date">{{ post.date }}</time>
-      </span>
-      <span v-if="post.tags.length" class="card__tags">
-        <span v-for="t in post.tags" :key="t" class="tag">{{ t }}</span>
-      </span>
-    </div>
-    <h2 class="card__title">
-      <RouterLink :to="`/post/${post.id}`">{{ post.title }}</RouterLink>
-    </h2>
-    <p class="card__excerpt">{{ post.excerpt }}</p>
-    <RouterLink class="card__more" :to="`/post/${post.id}`">
-      阅读全文
-      <ArrowRight :size="16" :stroke-width="1.75" aria-hidden="true" />
+    <RouterLink v-if="post.cover" class="card__cover" :to="`/post/${post.id}`" :aria-label="post.title">
+      <img :src="post.cover" :alt="post.title" loading="lazy" />
     </RouterLink>
+
+    <div class="card__body">
+      <h2 class="card__title">
+        <RouterLink :to="`/post/${post.id}`">{{ post.title }}</RouterLink>
+      </h2>
+      <p class="card__excerpt">{{ post.excerpt }}</p>
+    </div>
+
+    <div class="card__footer">
+      <div class="card__meta">
+        <span class="card__date">
+          <Calendar :size="14" :stroke-width="1.75" aria-hidden="true" />
+          <time :datetime="post.date">{{ post.date }}</time>
+        </span>
+        <span v-if="post.tags.length" class="card__tags">
+          <span v-for="t in post.tags" :key="t" class="tag">{{ t }}</span>
+        </span>
+      </div>
+
+      <RouterLink class="card__more" :to="`/post/${post.id}`">
+        阅读全文
+        <ArrowRight :size="16" :stroke-width="1.75" aria-hidden="true" />
+      </RouterLink>
+    </div>
   </article>
 </template>
 
 <style scoped>
 .card {
-  padding: 1.75rem 0;
+  padding: 1.05rem 0;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card:last-child {
   border-bottom: none;
 }
 
-.card__meta {
+.card__cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.card__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.card__cover:hover img {
+  transform: scale(1.03);
+}
+
+.card__body {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 .card__date {
@@ -70,7 +104,7 @@ defineProps<{
 }
 
 .card__title {
-  margin: 0 0 0.5rem;
+  margin: 0;
   font-size: 1.375rem;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -88,10 +122,25 @@ defineProps<{
 }
 
 .card__excerpt {
-  margin: 0 0 1rem;
+  margin: 0;
   color: var(--muted);
   font-size: 0.9375rem;
-  line-height: 1.65;
+  line-height: 1.6;
+}
+
+.card__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.75rem;
+  min-width: 0;
 }
 
 .card__more {
@@ -105,9 +154,18 @@ defineProps<{
   border-bottom: 1px solid var(--fg);
   padding-bottom: 0.1rem;
   width: fit-content;
+  flex-shrink: 0;
 }
 
 .card__more:hover {
   opacity: 0.7;
+}
+
+@media (max-width: 680px) {
+  .card__footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
 }
 </style>

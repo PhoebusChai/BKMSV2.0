@@ -18,7 +18,7 @@ const open = ref(false)
 const links = [
   { to: '/', label: '首页' },
   { to: '/archive', label: '归档' },
-  { to: '/share', label: '分享' },
+  { to: '/share', label: '留言' },
   { to: '/me', label: '我的' },
 ] as const
 
